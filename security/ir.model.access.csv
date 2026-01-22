@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_secret_codes,secret_codes,model_secret_codes,base.group_user,1,1,1,1
+access_secret_code_log,secret_code_log,model_secret_code_log,base.group_user,1,1,1,1
+access_generate_job,secret_codes.generate_job,model_secret_codes_generate_job,base.group_user,1,0,1,0
+access_generate_wizard,secret_codes.generate_wizard,model_secret_codes_generate_wizard,base.group_user,1,1,1,1
+access_bulk_activate_wizard,secret_codes.bulk_activate_wizard,model_secret_codes_bulk_activate_wizard,base.group_user,1,1,1,1
+access_export_wizard,secret_codes.export_wizard,model_secret_codes_export_wizard,base.group_user,1,1,1,1
+access_product_offer_lead,product_offer_lead,model_product_offer_lead,base.group_user,1,1,1,1

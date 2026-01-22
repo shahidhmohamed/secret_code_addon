@@ -1,0 +1,26 @@
+<odoo>
+  <record id="secret_codes.generate_wizard_form" model="ir.ui.view">
+    <field name="name">secret_codes.generate_wizard.form</field>
+    <field name="model">secret_codes.generate_wizard</field>
+    <field name="arch" type="xml">
+      <form string="Generate Secret Codes">
+        <group>
+          <field name="count"/>
+          <field name="batch_code"/>
+          <field name="run_in_background"/>
+        </group>
+        <footer>
+          <button name="action_generate" type="object" string="Generate" class="btn-primary"/>
+          <button string="Cancel" special="cancel"/>
+        </footer>
+      </form>
+    </field>
+  </record>
+
+  <record id="action_generate_wizard" model="ir.actions.act_window">
+    <field name="name">Generate Secret Codes</field>
+    <field name="res_model">secret_codes.generate_wizard</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+  </record>
+</odoo>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record model="ir.ui.view" id="product_offer_leads_list">
+    <field name="name">product_offer_leads list</field>
+    <field name="model">product_offer_lead</field>
+    <field name="arch" type="xml">
+      <list>
+        <header>
+          <button name="action_sync_frappe_product_offer_leads" type="object" string="Fetch Frappe Leads" display="always"/>
+          <!-- <button name="action_recompute_subscription_metrics" type="object" string="Recompute Subscribed Count" display="always"/> -->
+        </header>
+        <field name="secret_code"/>
+        <field name="verification_log"/>
+        <field name="email"/>
+        <field name="mobile_number"/>
+        <field name="source"/>
+        <field name="subscribed_count"/>
+        <field name="subscription_rating_stars"/>
+        <field name="create_date"/>
+        <field name="write_date"/>
+      </list>
+    </field>
+  </record>
+
+  <record model="ir.actions.act_window" id="product_offer_leads_action">
+    <field name="name">Product Offer Leads</field>
+    <field name="res_model">product_offer_lead</field>
+    <field name="view_mode">list</field>
+  </record>
+
+  <menuitem id="product_offer_leads_menu" name="Product Offer Leads" parent="secret_codes.menu_root" action="product_offer_leads_action" sequence="20"/>
+
+</odoo>
