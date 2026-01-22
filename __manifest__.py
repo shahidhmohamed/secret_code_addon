@@ -38,6 +38,9 @@
             'secret_codes/static/src/js/secret_codes_live_refresh.js',
         ],
     },
+    'external_dependencies': {
+        'python': ['xlsxwriter'],
+    },
     # only loaded in demonstration mode
     'demo': [
         'demo/demo.xml',

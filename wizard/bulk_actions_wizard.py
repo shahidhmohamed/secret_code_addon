@@ -29,7 +29,7 @@ class SecretCodeBulkActivateWizard(models.TransientModel):
             return str(int(value)).zfill(PUBLIC_CODE_LENGTH)
         return value
 
-    def _get_next_records(self, limit):
+    def _get_next_records(self, limit, status_filter='inactive'):
         secret_code_model = self.env['secret_codes'].sudo()
         last_printed = secret_code_model.search(
             [('is_printed', '=', True)],
@@ -38,11 +38,11 @@ class SecretCodeBulkActivateWizard(models.TransientModel):
         )
         if last_printed:
             domain = [
-                ('status', '=', 'inactive'),
+                ('status', '=', status_filter),
                 ('id', '>', last_printed.id),
             ]
         else:
-            domain = [('status', '=', 'inactive')]
+            domain = [('status', '=', status_filter)]
         return secret_code_model.search(domain, order='id asc', limit=limit)
 
     @api.depends(
@@ -80,7 +80,7 @@ class SecretCodeBulkActivateWizard(models.TransientModel):
     def _onchange_range_preview(self):
         self._compute_range_preview()
 
-    def _get_target_records(self):
+    def _get_target_records(self, status_filter='inactive'):
         if self.count and (self.public_code_from or self.public_code_to or self.public_code_from_id or self.public_code_to_id):
             raise ValidationError('Use either range or count, not both.')
 
@@ -96,11 +96,11 @@ class SecretCodeBulkActivateWizard(models.TransientModel):
             )
             if last_printed:
                 domain = [
-                    ('status', '=', 'inactive'),
+                    ('status', '=', status_filter),
                     ('id', '>', last_printed.id),
                 ]
             else:
-                domain = [('status', '=', 'inactive')]
+                domain = [('status', '=', status_filter)]
 
             return secret_code_model.search(
                 domain,
@@ -123,7 +123,7 @@ class SecretCodeBulkActivateWizard(models.TransientModel):
                 )
 
         domain = [
-            ('status', '=', 'inactive'),
+            ('status', '=', status_filter),
             ('public_code', '>=', from_code),
             ('public_code', '<=', to_code),
         ]
@@ -131,7 +131,8 @@ class SecretCodeBulkActivateWizard(models.TransientModel):
 
     def _apply_status(self, status):
         self.ensure_one()
-        records = self._get_target_records()
+        status_filter = 'inactive' if status == 'active' else 'active'
+        records = self._get_target_records(status_filter=status_filter)
         if records:
             records.write({'status': status})
         return len(records)

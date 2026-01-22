@@ -4,7 +4,12 @@ import base64
 import io
 
 from odoo import api, fields, models
-from odoo.tools.misc import xlsxwriter
+from odoo.exceptions import ValidationError
+
+try:
+    import xlsxwriter  # type: ignore
+except Exception:  # pragma: no cover - depends on environment
+    xlsxwriter = None
 from odoo.exceptions import ValidationError
 
 from ..models.models import PUBLIC_CODE_LENGTH
@@ -189,6 +194,8 @@ class SecretCodeExportWizard(models.TransientModel):
 
     def action_export(self):
         self.ensure_one()
+        if not xlsxwriter:
+            raise ValidationError('xlsxwriter is not installed. Please install python package: xlsxwriter')
         records = self._get_target_records()
         if records:
             records.write({'is_printed': True})
