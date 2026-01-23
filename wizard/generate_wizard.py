@@ -56,4 +56,5 @@ class SecretCodeGenerateWizard(models.TransientModel):
             )
             remaining -= len(secret_codes)
 
+        secret_code_model._notify_live_refresh()
         return {'type': 'ir.actions.act_window_close'}

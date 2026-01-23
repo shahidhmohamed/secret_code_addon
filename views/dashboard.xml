@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="secret_codes_dashboard_client_action" model="ir.actions.client">
+    <field name="name">Dashboard</field>
+    <field name="tag">secret_codes.dashboard</field>
+  </record>
+
+  <menuitem id="menu_dashboard_smart" name="Dashboard" parent="secret_codes.menu_root" action="secret_codes_dashboard_client_action" sequence="1" groups="secret_codes.group_secret_codes_access"/>
+
+</odoo>

@@ -15,9 +15,12 @@ PUBLIC_CODE_START = 10100000
 SECRET_CODE_LENGTH = 12
 BATCH_CODE_LENGTH = 6
 
-FRAPPE_BASE_URL = 'https://ghori.u.frappe.cloud'
-FRAPPE_API_KEY = '1671f30aad9dd4f'
-FRAPPE_API_SECRET = '9ffdd149d876332'
+# FRAPPE_BASE_URL = 'https://ghori.u.frappe.cloud'
+FRAPPE_BASE_URL = 'https://stagingghori.u.frappe.cloud'
+# FRAPPE_API_KEY = '1671f30aad9dd4f'
+FRAPPE_API_KEY = 'fa62fba39461c4f'
+# FRAPPE_API_SECRET = '9ffdd149d876332'
+FRAPPE_API_SECRET = 'ba1c168e024aea5'
 FRAPPE_PAGE_SIZE = 1000
 FRAPPE_TIMEOUT_SECONDS = 120
 FRAPPE_MAX_RETRIES = 3
@@ -44,6 +47,8 @@ class SecretCode(models.Model):
 
     batch_code = fields.Char(required=True, index=True)
     secret_code = fields.Char(required=True, index=True)
+    secret_code_masked = fields.Char(compute='_compute_secret_code_masked')
+    is_last_updated = fields.Boolean(compute='_compute_is_last_updated')
     public_code = fields.Char(required=True, index=True)
 
 
@@ -76,6 +81,23 @@ class SecretCode(models.Model):
             {'model': self._name},
         )
 
+    @api.depends('secret_code')
+    def _compute_secret_code_masked(self):
+        for record in self:
+            code = record.secret_code or ''
+            if not code:
+                record.secret_code_masked = ''
+                continue
+            tail = code[-4:] if len(code) > 4 else code
+            record.secret_code_masked = ('*' * max(len(code) - 4, 0)) + tail
+
+    @api.depends('write_date')
+    def _compute_is_last_updated(self):
+        latest = self.search([], order='write_date desc, id desc', limit=1)
+        latest_id = latest.id if latest else False
+        for record in self:
+            record.is_last_updated = bool(latest_id and record.id == latest_id)
+
     @api.model_create_multi
     def create(self, vals_list):
         records = super().create(vals_list)
@@ -86,6 +108,17 @@ class SecretCode(models.Model):
         result = super().write(vals)
         self._notify_live_refresh()
         return result
+
+    def action_view_secret_code(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'View Secret Code',
+            'res_model': 'secret_codes.view_secret_code_wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {'default_secret_code_id': self.id},
+        }
 
     # -------------------------
     # Manual button action

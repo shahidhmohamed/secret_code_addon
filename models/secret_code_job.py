@@ -68,6 +68,7 @@ class SecretCodeGenerationJob(models.Model):
 
                 if job.count_generated >= job.count_total:
                     job.state = 'done'
+                    secret_code_model._notify_live_refresh()
                     return
 
                 if time.monotonic() - start >= max_seconds:

@@ -1,0 +1,457 @@
+// ====================================
+// Secret Codes Dashboard Styles (Premium UI + Stable Scroll)
+// ====================================
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-120%) rotate(12deg);
+    opacity: 0;
+  }
+  35% {
+    opacity: 0.35;
+  }
+  100% {
+    transform: translateX(140%) rotate(12deg);
+    opacity: 0;
+  }
+}
+
+/* ================================
+   ODOO BACKEND SCROLL FIX
+   XML must wrap content like:
+   <div class="o_secret_codes_dashboard">
+     <div class="scd-scroll">
+       <div class="dashboard-container">...</div>
+     </div>
+   </div>
+================================== */
+
+.o_action_manager,
+.o_action_manager .o_content {
+  height: 100%;
+  overflow: hidden;
+}
+
+.o_secret_codes_dashboard {
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  background: #f5f7fb;
+}
+
+.o_secret_codes_dashboard .scd-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ================================
+   BASE CONTAINER + BACKDROP
+================================== */
+
+.o_secret_codes_dashboard .dashboard-container {
+  min-height: 100%;
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 18px 20px 30px;
+  font-family: "Space Grotesk", "Plus Jakarta Sans", "Nunito Sans", sans-serif;
+}
+
+/* Improve perceived spacing on large screens */
+@media (min-width: 1200px) {
+  .o_secret_codes_dashboard .dashboard-container {
+    padding: 22px 26px 36px;
+  }
+}
+
+/* ================================
+   HEADER (GLASS + TYPOGRAPHY)
+================================== */
+
+.dashboard-header {
+  animation: fadeInUp 0.6s ease-out;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+
+  padding: 16px 16px 12px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.74);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow:
+    0 14px 34px rgba(15, 23, 42, 0.08),
+    0 1px 0 rgba(255, 255, 255, 0.55) inset;
+}
+
+.dashboard-title-wrap {
+  max-width: 72%;
+}
+
+.dashboard-kicker {
+  color: #6b7280;
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.dashboard-title {
+  color: #0b1220;
+  font-size: 2.1rem;
+  font-weight: 760;
+  letter-spacing: -0.03em;
+  margin-bottom: 6px;
+  line-height: 1.08;
+}
+
+.dashboard-subtitle {
+  color: #475569;
+  font-size: 0.92rem;
+  line-height: 1.25;
+}
+
+.dashboard-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.chip {
+  background: rgba(255, 255, 255, 0.9);
+  color: #0f172a;
+  font-size: 0.75rem;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+}
+
+.chip-ghost {
+  background: rgba(239, 246, 255, 0.5);
+  color: #2563eb;
+  border-color: rgba(37, 99, 235, 0.22);
+}
+
+/* ================================
+   GRID / SPACING TWEAKS
+================================== */
+
+.kpi-row {
+  margin-bottom: 12px;
+}
+
+.o_secret_codes_dashboard .row {
+  margin-left: -6px;
+  margin-right: -6px;
+}
+
+.o_secret_codes_dashboard .col-12,
+.o_secret_codes_dashboard .col-lg-3,
+.o_secret_codes_dashboard .col-lg-6 {
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
+/* ================================
+   KPI CARDS (MORE PREMIUM)
+================================== */
+
+.stat-card {
+  animation: fadeInUp 0.6s ease-out backwards;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+  border-radius: 18px;
+  overflow: hidden;
+  position: relative;
+  color: #0f172a;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  box-shadow:
+    0 14px 32px rgba(15, 23, 42, 0.1),
+    0 1px 0 rgba(255, 255, 255, 0.55) inset;
+}
+
+/* Soft highlight ring */
+.stat-card::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 20px;
+  background: radial-gradient(
+    900px 140px at 18% 0%,
+    rgba(37, 99, 235, 0.12),
+    transparent 60%
+  );
+  opacity: 0.9;
+  z-index: -1;
+}
+
+/* Shimmer on hover (subtle) */
+.stat-card::after {
+  content: "";
+  position: absolute;
+  top: -55%;
+  left: -40%;
+  width: 90%;
+  height: 180%;
+  transform: rotate(12deg);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.38),
+    transparent
+  );
+  opacity: 0;
+  pointer-events: none;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(37, 99, 235, 0.22);
+  box-shadow:
+    0 20px 46px rgba(15, 23, 42, 0.14),
+    0 1px 0 rgba(255, 255, 255, 0.65) inset;
+}
+
+.stat-card:hover::after {
+  opacity: 1;
+  animation: shimmer 1.05s ease-out 1;
+}
+
+.stat-card-1 {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(241, 245, 249, 1) 100%
+  );
+}
+
+.stat-card-2 {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(236, 254, 255, 1) 100%
+  );
+}
+
+.stat-card-3 {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 247, 237, 1) 100%
+  );
+}
+
+.stat-card-4 {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 228, 230, 1) 100%
+  );
+}
+
+/* Typography inside KPI cards */
+.stat-card .h2 {
+  color: #0b1220 !important;
+  letter-spacing: -0.02em;
+}
+
+.stat-card .h6 {
+  color: #334155 !important;
+  letter-spacing: -0.01em;
+}
+
+.stat-card .small {
+  color: #64748b !important;
+}
+
+/* ================================
+   CHART CARDS (SOFTER, CLEANER)
+================================== */
+
+.chart-card {
+  animation: fadeInUp 0.8s ease-out backwards;
+  border-radius: 18px;
+  background: #ffffff;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+  max-height: 440px;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  box-shadow:
+    0 14px 30px rgba(15, 23, 42, 0.08),
+    0 1px 0 rgba(255, 255, 255, 0.55) inset;
+}
+
+.chart-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(37, 99, 235, 0.18);
+  box-shadow:
+    0 18px 40px rgba(15, 23, 42, 0.12),
+    0 1px 0 rgba(255, 255, 255, 0.65) inset;
+}
+
+/* Give charts a subtle gradient backdrop */
+.chart-card .card-body {
+  padding: 16px !important;
+  color: #374151;
+  border-radius: 18px;
+  background:
+    radial-gradient(
+      700px 220px at 10% 0%,
+      rgba(16, 185, 129, 0.1),
+      transparent 62%
+    ),
+    radial-gradient(
+      700px 220px at 92% 0%,
+      rgba(249, 115, 22, 0.1),
+      transparent 60%
+    ),
+    #ffffff;
+}
+
+/* Chart title */
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #0f172a;
+  font-weight: 650;
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+
+/* Dots */
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  display: inline-block;
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.12);
+}
+
+.dot-coral {
+  background: #f97316;
+}
+
+.dot-mint {
+  background: #10b981;
+}
+
+.chart-card canvas {
+  max-height: 270px;
+}
+
+.chart-canvas {
+  height: 240px;
+}
+
+/* ================================
+   MAP CARD (FRAME + DEPTH)
+================================== */
+
+.map-card {
+  animation: fadeInUp 1s ease-out backwards;
+  animation-delay: 0.7s;
+  border-radius: 18px;
+  background: #ffffff;
+  max-height: none;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  overflow: hidden;
+  box-shadow:
+    0 14px 30px rgba(15, 23, 42, 0.08),
+    0 1px 0 rgba(255, 255, 255, 0.55) inset;
+}
+
+.map-canvas {
+  height: 440px;
+  width: 100%;
+  display: block;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.map-blink {
+  animation: mapPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes mapPulse {
+  0% {
+    opacity: 0.9;
+  }
+  70% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0.9;
+  }
+}
+
+/* ================================
+   RESPONSIVE
+================================== */
+
+@media (max-width: 991px) {
+  .dashboard-title {
+    font-size: 1.65rem;
+  }
+
+  .dashboard-title-wrap {
+    max-width: 100%;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dashboard-meta {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .map-canvas {
+    height: 320px;
+  }
+}
+
+/* ================================
+   Reduced motion friendly
+================================== */
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-header,
+  .stat-card,
+  .chart-card,
+  .map-card {
+    animation: none !important;
+  }
+
+  .stat-card,
+  .chart-card {
+    transition: none !important;
+  }
+
+  .stat-card::after {
+    display: none !important;
+  }
+}

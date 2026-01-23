@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates>
+    <t t-name="owl.KpiCard" owl="1">
+        <div class="col-6 col-lg-3 m-0 p-0">
+            <div t-attf-class="stat-card stat-card-#{props.variant} m-1 p-3 text-center">
+                <div class="h2 fw-bold text-white" style="font-size: 30px">
+                    <span t-esc="props.done"/>
+                </div>
+                <div class="h6" style="color:#cbd5f5;">
+                    <span t-esc="props.label"/>
+                </div>
+                <div class="small mt-2" style="color:#9aa4b2;">updated just now</div>
+            </div>
+        </div>
+    </t>
+</templates>

@@ -6,9 +6,12 @@ import requests
 
 from odoo import api, fields, models
 
-FRAPPE_BASE_URL = 'https://ghori.u.frappe.cloud'
-FRAPPE_API_KEY = '1671f30aad9dd4f'
-FRAPPE_API_SECRET = '9ffdd149d876332'
+# FRAPPE_BASE_URL = 'https://ghori.u.frappe.cloud'
+FRAPPE_BASE_URL = 'https://stagingghori.u.frappe.cloud'
+# FRAPPE_API_KEY = '1671f30aad9dd4f'
+FRAPPE_API_KEY = 'fa62fba39461c4f'
+# FRAPPE_API_SECRET = '9ffdd149d876332'
+FRAPPE_API_SECRET = 'ba1c168e024aea5'
 FRAPPE_PAGE_SIZE = 100
 FRAPPE_TIMEOUT_SECONDS = 120
 FRAPPE_MAX_RETRIES = 3
@@ -46,6 +49,7 @@ class ProductOfferLead(models.Model):
         string='Subscription Rating',
         store=True,
     )
+    is_last_updated = fields.Boolean(compute='_compute_is_last_updated')
 
     def _notify_live_refresh(self):
         self.env['bus.bus']._sendone(
@@ -84,6 +88,13 @@ class ProductOfferLead(models.Model):
             filled = '★'
             empty = '☆'
             record.subscription_rating_stars = (filled * rating) + (empty * (5 - rating))
+
+    @api.depends('write_date')
+    def _compute_is_last_updated(self):
+        latest = self.search([], order='write_date desc, id desc', limit=1)
+        latest_id = latest.id if latest else False
+        for record in self:
+            record.is_last_updated = bool(latest_id and record.id == latest_id)
 
     @api.model
     def _update_subscription_metrics_for(self, email, mobile):

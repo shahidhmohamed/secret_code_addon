@@ -23,19 +23,32 @@
 
     # always loaded
     'data': [
+        'security/secret_codes_groups.xml',
         'security/ir.model.access.csv',
         'data/cron.xml',
         'views/generate_wizard.xml',
         'views/bulk_actions_wizard.xml',
         'views/export_codes_wizard.xml',
+        'views/view_secret_code_wizard.xml',
+        'views/view_location_wizard.xml',
         'views/secret_codes.xml',
         'views/secret_code_logs.xml',
         'views/product_offer_leads.xml',
+        'views/dashboard.xml',
         'views/templates.xml',
     ],
     'assets': {
         'web.assets_backend': [
             'secret_codes/static/src/js/secret_codes_live_refresh.js',
+            'secret_codes/static/src/scss/dashboard.scss',
+            'secret_codes/static/src/components/kpi_card/kpi_card.js',
+            'secret_codes/static/src/components/kpi_card/kpi_card.xml',
+            'secret_codes/static/src/components/chart_renderer/chart_renderer.js',
+            'secret_codes/static/src/components/chart_renderer/chart_renderer.xml',
+            'secret_codes/static/src/components/map_card/map_card.js',
+            'secret_codes/static/src/components/map_card/map_card.xml',
+            'secret_codes/static/src/dashboard/dashboard.js',
+            'secret_codes/static/src/dashboard/dashboard.xml',
         ],
     },
     'external_dependencies': {

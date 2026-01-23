@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+  <t t-name="owl.MapCard" owl="1">
+    <div class="map-card card border-0 shadow-lg">
+      <div class="card-body p-4">
+        <h4 class="mb-4 fw-bold">
+          <i class="card-header-icon fa fa-map-marker me-2 text-danger"/>
+          <span t-esc="props.title"/>
+        </h4>
+        <div class="map-canvas rounded shadow-sm" t-ref="map"/>
+      </div>
+    </div>
+  </t>
+</templates>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+  <t t-name="secret_codes.Dashboard" owl="1">
+    <div class="o_secret_codes_dashboard">
+      <div class="scd-scroll">
+        <div class="dashboard-container">
+          <div class="dashboard-header">
+            <div class="dashboard-title-wrap">
+              <div class="dashboard-kicker">Integrity &amp; Growth</div>
+              <h1 class="dashboard-title">Secret Codes Command</h1>
+              <p class="dashboard-subtitle">Operational pulse • verification health • lead traction</p>
+            </div>
+          </div>
+
+          <div class="row kpi-row">
+            <KpiCard done="state.total_codes" label="'Total Codes'" variant="1"/>
+            <KpiCard done="state.total_active" label="'Active Codes'" variant="2"/>
+            <KpiCard done="state.total_inactive" label="'Inactive Codes'" variant="3"/>
+            <KpiCard done="state.total_offer_leads" label="'Offer Leads'" variant="4"/>
+          </div>
+
+          <div class="row chart-row">
+            <div class="col-12 col-lg-6 mb-3">
+              <div class="chart-card card border-0 h-100">
+                <div class="card-body">
+                  <div class="card-title">
+                    <span class="dot dot-coral"></span>
+                  Search Summary
+                  </div>
+                <ChartRenderer type="'bar'" title="'All Logs'" labels="['Validated', 'Rejected']" values="[state.total_validated_logs, state.total_rejected_logs]"/>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-lg-6 mb-3">
+              <div class="chart-card card border-0 h-100">
+                <div class="card-body">
+                  <div class="card-title">
+                    <span class="dot dot-mint"></span>
+                  Status Distribution
+                  </div>
+                  <ChartRenderer type="'pie'" title="'Status'" success="state.total_active" cancelled="state.total_inactive" open="state.total_validated" all="state.total_pending"/>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+            <MapCard title="'Search Locations'" points="state.map_points"/>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </t>
+</templates>

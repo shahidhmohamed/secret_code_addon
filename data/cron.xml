@@ -16,7 +16,7 @@
     <field name="code">model.sync_frappe_secret_codes_cron()</field>
     <field name="interval_number">1</field>
     <field name="interval_type">minutes</field>
-    <field name="active">True</field>
+    <field name="active">False</field>
   </record>
 
 </odoo>

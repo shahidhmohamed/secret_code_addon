@@ -35,6 +35,8 @@ class SecretCodeExportWizard(models.TransientModel):
 
     export_file = fields.Binary(readonly=True)
     export_filename = fields.Char(readonly=True)
+    export_password = fields.Char(string='Export Password')
+    export_password_confirm = fields.Char(string='Confirm Password')
 
     def _normalize_code(self, value):
         value = (value or '').strip()
@@ -196,12 +198,20 @@ class SecretCodeExportWizard(models.TransientModel):
         self.ensure_one()
         if not xlsxwriter:
             raise ValidationError('xlsxwriter is not installed. Please install python package: xlsxwriter')
+        if not self.export_password:
+            raise ValidationError('Please enter an export password.')
+        if self.export_password != self.export_password_confirm:
+            raise ValidationError('Passwords do not match.')
         records = self._get_target_records()
         if records:
             records.write({'is_printed': True})
 
         output = io.BytesIO()
         workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+        if hasattr(workbook, "set_password"):
+            workbook.set_password(self.export_password)
+        else:
+            raise ValidationError('Your xlsxwriter version does not support encrypted files.')
         sheet = workbook.add_worksheet('Secret Codes')
         headers = ['batch_code', 'secret_code', 'public_code']
         for col, header in enumerate(headers):
