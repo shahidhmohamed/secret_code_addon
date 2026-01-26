@@ -35,6 +35,7 @@
         'views/secret_code_logs.xml',
         'views/product_offer_leads.xml',
         'views/dashboard.xml',
+        'views/export_history.xml',
         'views/templates.xml',
     ],
     'assets': {

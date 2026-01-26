@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="secret_codes_export_history_list" model="ir.ui.view">
+    <field name="name">secret_codes.export_history.list</field>
+    <field name="model">secret_codes.export_history</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="name"/>
+        <field name="record_count"/>
+        <field name="range_preview"/>
+        <field name="created_by"/>
+        <field name="created_on"/>
+        <field name="export_file" filename="export_filename"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="secret_codes_export_history_form" model="ir.ui.view">
+    <field name="name">secret_codes.export_history.form</field>
+    <field name="model">secret_codes.export_history</field>
+    <field name="arch" type="xml">
+      <form string="Export History">
+        <sheet>
+          <group>
+            <field name="name"/>
+            <field name="record_count"/>
+            <field name="public_code_from"/>
+            <field name="public_code_to"/>
+            <field name="count_requested"/>
+            <field name="range_preview"/>
+            <field name="last_exported_code"/>
+            <field name="created_by"/>
+            <field name="created_on"/>
+            <field name="export_file" filename="export_filename"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="secret_codes_export_history_action" model="ir.actions.act_window">
+    <field name="name">Export History</field>
+    <field name="res_model">secret_codes.export_history</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <menuitem id="secret_codes_export_history_menu"
+            name="Export History"
+            parent="secret_codes.menu_root"
+            action="secret_codes_export_history_action"
+            sequence="30"
+            groups="secret_codes.group_secret_codes_access"/>
+
+</odoo>

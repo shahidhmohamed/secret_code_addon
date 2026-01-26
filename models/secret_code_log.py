@@ -8,12 +8,12 @@ import requests
 
 from odoo import api, fields, models
 
-# FRAPPE_BASE_URL = 'https://ghori.u.frappe.cloud'
-FRAPPE_BASE_URL = 'https://stagingghori.u.frappe.cloud'
-# FRAPPE_API_KEY = '1671f30aad9dd4f'
-FRAPPE_API_KEY = 'fa62fba39461c4f'
-# FRAPPE_API_SECRET = '9ffdd149d876332'
-FRAPPE_API_SECRET = 'ba1c168e024aea5'
+FRAPPE_BASE_URL = 'https://ghori.u.frappe.cloud'
+# FRAPPE_BASE_URL = 'https://stagingghori.u.frappe.cloud'
+FRAPPE_API_KEY = '1671f30aad9dd4f'
+# FRAPPE_API_KEY = 'fa62fba39461c4f'
+FRAPPE_API_SECRET = '9ffdd149d876332'
+# FRAPPE_API_SECRET = 'ba1c168e024aea5'
 FRAPPE_PAGE_SIZE = 100
 FRAPPE_TIMEOUT_SECONDS = 120
 FRAPPE_MAX_RETRIES = 3

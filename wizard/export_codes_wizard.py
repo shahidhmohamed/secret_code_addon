@@ -35,8 +35,6 @@ class SecretCodeExportWizard(models.TransientModel):
 
     export_file = fields.Binary(readonly=True)
     export_filename = fields.Char(readonly=True)
-    export_password = fields.Char(string='Export Password')
-    export_password_confirm = fields.Char(string='Confirm Password')
 
     def _normalize_code(self, value):
         value = (value or '').strip()
@@ -198,20 +196,12 @@ class SecretCodeExportWizard(models.TransientModel):
         self.ensure_one()
         if not xlsxwriter:
             raise ValidationError('xlsxwriter is not installed. Please install python package: xlsxwriter')
-        if not self.export_password:
-            raise ValidationError('Please enter an export password.')
-        if self.export_password != self.export_password_confirm:
-            raise ValidationError('Passwords do not match.')
         records = self._get_target_records()
         if records:
             records.write({'is_printed': True})
 
         output = io.BytesIO()
         workbook = xlsxwriter.Workbook(output, {'in_memory': True})
-        if hasattr(workbook, "set_password"):
-            workbook.set_password(self.export_password)
-        else:
-            raise ValidationError('Your xlsxwriter version does not support encrypted files.')
         sheet = workbook.add_worksheet('Secret Codes')
         headers = ['batch_code', 'secret_code', 'public_code']
         for col, header in enumerate(headers):
@@ -226,12 +216,33 @@ class SecretCodeExportWizard(models.TransientModel):
 
         data = output.getvalue()
         filename = 'secret_codes_export.xlsx'
+        encoded = base64.b64encode(data)
         self.write(
             {
-                'export_file': base64.b64encode(data),
+                'export_file': encoded,
                 'export_filename': filename,
             }
         )
+        export_record = self.env['secret_codes.export_history'].sudo().create({
+            'name': filename,
+            'export_file': encoded,
+            'export_filename': filename,
+            'record_count': len(records),
+            'public_code_from': self.public_code_from_id.public_code if self.public_code_from_id else self.public_code_from,
+            'public_code_to': self.public_code_to_id.public_code if self.public_code_to_id else self.public_code_to,
+            'count_requested': self.count or 0,
+            'range_preview': self.range_preview,
+            'last_exported_code': self.last_exported_code,
+            'created_by': self.env.user.id,
+        })
+        self.env['ir.attachment'].sudo().create({
+            'name': filename,
+            'type': 'binary',
+            'datas': encoded,
+            'res_model': 'secret_codes.export_history',
+            'res_id': export_record.id,
+            'mimetype': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        })
         return {
             'type': 'ir.actions.act_url',
             'url': (
