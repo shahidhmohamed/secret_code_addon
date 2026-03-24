@@ -5,3 +5,4 @@ from . import bulk_actions_wizard
 from . import export_codes_wizard
 from . import view_secret_code_wizard
 from . import view_location_wizard
+from . import selection_status_wizard

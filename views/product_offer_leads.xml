@@ -7,7 +7,7 @@
     <field name="arch" type="xml">
       <list decoration-info="is_last_updated">
         <header>
-          <button name="action_sync_frappe_product_offer_leads" type="object" string="Fetch Frappe Leads" display="always"/>
+          <!-- <button name="action_sync_frappe_product_offer_leads" type="object" string="Fetch Frappe Leads" display="always"/> -->
           <!-- <button name="action_recompute_subscription_metrics" type="object" string="Recompute Subscribed Count" display="always"/> -->
         </header>
         <field name="secret_code" widget="badge"/>

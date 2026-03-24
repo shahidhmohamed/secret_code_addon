@@ -109,6 +109,40 @@ class SecretCode(models.Model):
         self._notify_live_refresh()
         return result
 
+    def action_set_active_selected(self):
+        target_records = self.filtered(lambda rec: rec.status != 'active')
+        updated = len(target_records)
+        if target_records:
+            target_records.write({'status': 'active'})
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': 'Activate',
+                'message': f'Updated {updated} code(s) to ACTIVE.',
+                'type': 'info',
+                'sticky': False,
+                'next': {'type': 'ir.actions.client', 'tag': 'reload'},
+            },
+        }
+
+    def action_set_inactive_selected(self):
+        target_records = self.filtered(lambda rec: rec.status != 'inactive')
+        updated = len(target_records)
+        if target_records:
+            target_records.write({'status': 'inactive'})
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': 'Deactivate',
+                'message': f'Updated {updated} code(s) to INACTIVE.',
+                'type': 'info',
+                'sticky': False,
+                'next': {'type': 'ir.actions.client', 'tag': 'reload'},
+            },
+        }
+
     def action_view_secret_code(self):
         self.ensure_one()
         return {

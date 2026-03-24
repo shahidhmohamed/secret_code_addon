@@ -29,6 +29,7 @@ class SecretCodeGenerateWizard(models.TransientModel):
                     'last_public_code': str(secret_code_model._get_next_public_code()),
                 }
             )
+            self.env['secret_codes.generate_job']._set_generate_cron_active(True)
             return {
                 'type': 'ir.actions.client',
                 'tag': 'display_notification',

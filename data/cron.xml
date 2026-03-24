@@ -6,7 +6,7 @@
     <field name="code">model.run_pending_jobs()</field>
     <field name="interval_number">1</field>
     <field name="interval_type">minutes</field>
-    <field name="active">True</field>
+    <field name="active">False</field>
   </record>
 
   <record id="ir_cron_secret_codes_frappe_sync" model="ir.cron">

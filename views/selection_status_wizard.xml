@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="secret_codes_selection_status_wizard_form" model="ir.ui.view">
+    <field name="name">secret_codes.selection_status_wizard.form</field>
+    <field name="model">secret_codes.selection_status_wizard</field>
+    <field name="arch" type="xml">
+      <form string="Selected Status Actions">
+        <group>
+          <field name="selected_count" readonly="1"/>
+          <field name="can_activate_count" readonly="1"/>
+          <field name="can_deactivate_count" readonly="1"/>
+        </group>
+        <footer>
+          <button name="action_activate_selected" type="object" class="btn-primary" string="Activate" invisible="can_activate_count == 0"/>
+          <button name="action_deactivate_selected" type="object" class="btn-secondary" string="Deactivate" invisible="can_deactivate_count == 0"/>
+          <button special="cancel" string="Cancel" class="btn-secondary"/>
+        </footer>
+      </form>
+    </field>
+  </record>
+</odoo>
