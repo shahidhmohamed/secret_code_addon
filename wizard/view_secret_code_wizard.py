@@ -9,7 +9,7 @@ class SecretCodeViewWizard(models.TransientModel):
     _description = 'View Secret Code'
 
     secret_code_id = fields.Many2one('secret_codes', required=True, readonly=True)
-    password = fields.Char(required=True, password=True)
+    password = fields.Char(required=True)
     revealed_secret_code = fields.Char(readonly=True)
 
     def action_reveal(self):
