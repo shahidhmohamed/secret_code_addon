@@ -122,7 +122,6 @@ class SecretCode(models.Model):
                 'message': f'Updated {updated} code(s) to ACTIVE.',
                 'type': 'info',
                 'sticky': False,
-                'next': {'type': 'ir.actions.client', 'tag': 'reload'},
             },
         }
 
@@ -139,7 +138,33 @@ class SecretCode(models.Model):
                 'message': f'Updated {updated} code(s) to INACTIVE.',
                 'type': 'info',
                 'sticky': False,
-                'next': {'type': 'ir.actions.client', 'tag': 'reload'},
+            },
+        }
+
+    def action_reset_search_limit_selected(self):
+        target_records = self.filtered(
+            lambda rec: rec.is_search_limit_reached
+            or rec.searched_count_success
+            or rec.searched_count_fail
+        )
+        updated = len(target_records)
+        if target_records:
+            target_records.write(
+                {
+                    'is_search_limit_reached': False,
+                    'searched_count_success': 0,
+                    'searched_count_fail': 0,
+                    'validate_status': 'pending',
+                }
+            )
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': 'Search limit reset',
+                'message': f'Reset search counters for {updated} code(s).',
+                'type': 'info',
+                'sticky': False,
             },
         }
 
