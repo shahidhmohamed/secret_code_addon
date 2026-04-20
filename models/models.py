@@ -179,6 +179,23 @@ class SecretCode(models.Model):
             'context': {'default_secret_code_id': self.id},
         }
 
+    def action_view_related_logs(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Secret Code Logs',
+            'res_model': 'secret_code_log',
+            'view_mode': 'list,form',
+            'domain': [
+                '|',
+                ('searched_code', '=', self.secret_code),
+                ('public_code', '=', self.public_code),
+            ],
+            'context': {
+                'search_default_searched_code': self.secret_code,
+            },
+        }
+
     # -------------------------
     # Manual button action
     # -------------------------
